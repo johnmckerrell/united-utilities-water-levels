@@ -44,17 +44,17 @@
 
 
 
-        <link href="/assets/styles/main.css?build=Releases-5251" rel="stylesheet" />
-    <script src="/js/dist/modernizr.js?build=Releases-5251"></script>
+        <link href="/assets/styles/main.css?build=Releases-5310" rel="stylesheet" />
+    <script src="/js/dist/modernizr.js?build=Releases-5310"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="/js/dev/lib/jquery.min.js"><\/script>')</script>
-        <script src="/js/dev/vendor/angular.min.js?build=Releases-5251"></script>
+        <script src="/js/dev/vendor/angular.min.js?build=Releases-5310"></script>
         <script type="text/javascript" src="/js/dev/conditional/markerclusterer.js"></script>
         <script src="/js/dev/mando/logic/localStorage-polyfill.js"></script>
     <script>
             /*! grunt-grunticon Stylesheet Loader - v2.1.6 | https://github.com/filamentgroup/grunticon | (c) 2015 Scott Jehl, Filament Group, Inc. | MIT license. */
             !function () { function e(e, n, t) { "use strict"; var o = window.document.createElement("link"), r = n || window.document.getElementsByTagName("script")[0], a = window.document.styleSheets; return o.rel = "stylesheet", o.href = e, o.media = "only x", r.parentNode.insertBefore(o, r), o.onloadcssdefined = function (e) { for (var n, t = 0; t < a.length; t++) a[t].href && a[t].href === o.href && (n = !0); n ? e() : setTimeout(function () { o.onloadcssdefined(e) }) }, o.onloadcssdefined(function () { o.media = t || "all" }), o } function n(e, n) { e.onload = function () { e.onload = null, n && n.call(e) }, "isApplicationInstalled" in navigator && "onloadcssdefined" in e && e.onloadcssdefined(n) } !function (t) { var o = function (r, a) { "use strict"; if (r && 3 === r.length) { var i = t.navigator, c = t.document, s = t.Image, d = !(!c.createElementNS || !c.createElementNS("http://www.w3.org/2000/svg", "svg").createSVGRect || !c.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#Image", "1.1") || t.opera && -1 === i.userAgent.indexOf("Chrome") || -1 !== i.userAgent.indexOf("Series40")), l = new s; l.onerror = function () { o.method = "png", o.href = r[2], e(r[2]) }, l.onload = function () { var t = 1 === l.width && 1 === l.height, i = r[t && d ? 0 : t ? 1 : 2]; t && d ? o.method = "svg" : t ? o.method = "datapng" : o.method = "png", o.href = i, n(e(i), a) }, l.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==", c.documentElement.className += " grunticon" } }; o.loadCSS = e, o.onloadCSS = n, t.grunticon = o }(this), function (e, n) { "use strict"; var t = n.document, o = "grunticon:", r = function (e) { if (t.attachEvent ? "complete" === t.readyState : "loading" !== t.readyState) e(); else { var n = !1; t.addEventListener("readystatechange", function () { n || (n = !0, e()) }, !1) } }, a = function (e) { return n.document.querySelector('link[href$="' + e + '"]') }, i = function (e) { var n, t, r, a, i, c, s = {}; if (n = e.sheet, !n) return s; t = n.cssRules ? n.cssRules : n.rules; for (var d = 0; d < t.length; d++) r = t[d].cssText, a = o + t[d].selectorText, i = r.split(");")[0].match(/US\-ASCII\,([^"']+)/), i && i[1] && (c = decodeURIComponent(i[1]), s[a] = c); return s }, c = function (e) { var n, r, a, i; a = "data-grunticon-embed"; for (var c in e) { i = c.slice(o.length); try { n = t.querySelectorAll(i) } catch (s) { continue } r = []; for (var d = 0; d < n.length; d++) null !== n[d].getAttribute(a) && r.push(n[d]); if (r.length) for (d = 0; d < r.length; d++) r[d].innerHTML = e[c], r[d].style.backgroundImage = "none", r[d].removeAttribute(a) } return r }, s = function (n) { "svg" === e.method && r(function () { c(i(a(e.href))), "function" == typeof n && n() }) }; e.embedIcons = c, e.getCSS = a, e.getIcons = i, e.ready = r, e.svgLoadedCallback = s, e.embedSVG = s }(grunticon, this) }();
-            grunticon(["/assets/icons/output/icons.data.svg.css?build=Releases-5251", "/assets/icons/output/icons.data.png.css?build=Releases-5251", "/assets/icons/output/icons.fallback.css?build=Releases-5251"], grunticon.svgLoadedCallback);
+            grunticon(["/assets/icons/output/icons.data.svg.css?build=Releases-5310", "/assets/icons/output/icons.data.png.css?build=Releases-5310", "/assets/icons/output/icons.fallback.css?build=Releases-5310"], grunticon.svgLoadedCallback);
 
     </script>
     <script type="text/javascript">
@@ -78,7 +78,7 @@
         var loaded = [], frag = !1; window.location.hash === enableFragment && (frag = !0); function loadScript(c, b) { var a = document.createElement("script"); a.type = "text/javascript"; a.readyState ? a.onreadystatechange = function () { if ("loaded" == a.readyState || "complete" == a.readyState) a.onreadystatechange = null, void 0 != b && b() } : void 0 != b && (a.onload = function () { b() }); a.src = c; document.getElementsByTagName("head")[0].appendChild(a) } function _rc(c) { c += "="; for (var b = document.cookie.split(";"), a = 0; a < b.length; a++) { for (var d = b[a]; " " == d.charAt(0);) d = d.substring(1, d.length); if (0 == d.indexOf(c)) return d.substring(c.length, d.length) } return null } function loadService(c) { for (var b = serviceUrl + serviceKey, a = 0; a < loaded.length; a++) if (loaded[a] == b) return; loaded.push(b); loadScript(serviceUrl + serviceKey, function () { "function" === typeof _reciteLoaded && _reciteLoaded(); "function" == typeof c && c(); Recite.load(options); Recite.Event.subscribe("Recite:load", function () { Recite.enable() }) }) } "true" == _rc("Recite.Persist") && loadService(); (autoLoad && "false" != _rc("Recite.Persist") || frag) && loadService();
     </script>
     <noscript>
-        <link href="/Static/assets/icons/output/icons.fallback.css?build=Releases-5251" rel="stylesheet">
+        <link href="/Static/assets/icons/output/icons.fallback.css?build=Releases-5310" rel="stylesheet">
     </noscript>
     <link rel="mask-icon" href="/assets/img/favicon/safari-pinned-tab.svg" color="#5bbad5">
     <link rel="apple-touch-icon" sizes="57x57" href="/assets/img/favicon/apple-touch-icon-57x57.png">
@@ -908,7 +908,7 @@ var google_remarketing_only = true;
                 <table style="width: 100%; min-width: 800px;" border="0">
 <tbody>
 <tr>
-<td style="text-align: center;"><strong>20th November 2022</strong></td>
+<td style="text-align: center;"><strong>27th November 2022</strong></td>
 <td style="text-align: center;"><strong>Actual stock</strong></td>
 <td style="text-align: center;"><strong>Change since last week</strong></td>
 <td style="text-align: center;"><strong>Average year</strong></td>
@@ -916,45 +916,45 @@ var google_remarketing_only = true;
 </tr>
 <tr style="text-align: center;">
 <td><strong>Regional Total</strong></td>
-<td style="text-align: center;">73.7%</td>
-<td style="text-align: center;">3.9%</td>
-<td style="text-align: center;">83.5%</td>
-<td style="text-align: center;">80.3%</td>
+<td style="text-align: center;">78.9%</td>
+<td style="text-align: center;">5.2%</td>
+<td style="text-align: center;">84.9%</td>
+<td style="text-align: center;">80.4%</td>
 </tr>
 <tr style="text-align: center;">
 <td><strong>Carlisle</strong></td>
 <td style="text-align: center;">98.4%</td>
-<td style="text-align: center;">0.7%</td>
-<td style="text-align: center;">95.9%</td>
-<td style="text-align: center;">97.2%</td>
+<td style="text-align: center;">0.0%</td>
+<td style="text-align: center;">96.1%</td>
+<td style="text-align: center;">96.6%</td>
 </tr>
 <tr style="text-align: center;">
 <td><strong>West Cumbria</strong></td>
-<td style="text-align: center;">99.3%</td>
-<td style="text-align: center;">-0.3%</td>
-<td style="text-align: center;">99.5%</td>
-<td style="text-align: center;">99.9%</td>
+<td style="text-align: center;">99.4%</td>
+<td style="text-align: center;">0.1%</td>
+<td style="text-align: center;">99.7%</td>
+<td style="text-align: center;">99.8%</td>
 </tr>
 <tr style="text-align: center;">
 <td><strong>Haweswater &amp; Thirlmere</strong></td>
-<td style="text-align: center;">83.6%</td>
-<td style="text-align: center;">3.1%</td>
-<td style="text-align: center;">80.1%</td>
-<td style="text-align: center;">77.2%</td>
+<td style="text-align: center;">88.6%</td>
+<td style="text-align: center;">4.9%</td>
+<td style="text-align: center;">81.4%</td>
+<td style="text-align: center;">75.6%</td>
 </tr>
 <tr style="text-align: center;">
 <td><strong>Pennine Sources</strong></td>
-<td style="text-align: center;">72.5%</td>
-<td style="text-align: center;">9.3%</td>
-<td style="text-align: center;">81.9%</td>
-<td style="text-align: center;">84.5%</td>
+<td style="text-align: center;">80.1%</td>
+<td style="text-align: center;">7.6%</td>
+<td style="text-align: center;">83.3%</td>
+<td style="text-align: center;">84.7%</td>
 </tr>
 <tr>
 <td style="text-align: center;"><strong>Dee &amp; Vyrnwy Reservoirs</strong></td>
-<td style="text-align: center;">65.9%</td>
-<td style="text-align: center;">1.2%</td>
-<td style="text-align: center;">86.0%</td>
-<td style="text-align: center;">79.1%</td>
+<td style="text-align: center;">70.1%</td>
+<td style="text-align: center;">4.2%</td>
+<td style="text-align: center;">87.3%</td>
+<td style="text-align: center;">79.5%</td>
 </tr>
 </tbody>
 </table>
@@ -966,14 +966,15 @@ var google_remarketing_only = true;
     <div class="o-wrapper__inner">
         <div class="c-table__wrapper">
             <div class="c-table">
-                <table style="width: 483px;" border="0">
+                <table style="width: 477px;" border="0">
 <tbody>
 <tr>
 <td><strong>Water level at Thirlmere (metres below top water level)</strong></td>
-<td>2.94</td>
+<td>2.48</td>
 </tr>
 </tbody>
 </table>
+<p>&nbsp;</p>
             </div>
         </div>
     </div>
@@ -1082,9 +1083,9 @@ var google_remarketing_only = true;
         </div>
         
 
-            <script src="/js/dev/lib/jspdf.min.js?build=Releases-5251"></script>
-            <script src="/js/dist/vendor.min.js?build=Releases-5251"></script>
-            <script src="/js/dist/mando.min.js?build=Releases-5251"></script>
+            <script src="/js/dev/lib/jspdf.min.js?build=Releases-5310"></script>
+            <script src="/js/dist/vendor.min.js?build=Releases-5310"></script>
+            <script src="/js/dist/mando.min.js?build=Releases-5310"></script>
         
         
 <noscript>

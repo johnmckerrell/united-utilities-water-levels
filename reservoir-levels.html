@@ -33,17 +33,17 @@
 
 
 
-        <link href="/assets/styles/main.css?build=Releases-5343" rel="stylesheet" />
-    <script src="/js/dist/modernizr.js?build=Releases-5343"></script>
+        <link href="/assets/styles/main.css?build=Releases-5543" rel="stylesheet" />
+    <script src="/js/dist/modernizr.js?build=Releases-5543"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="/js/dev/lib/jquery.min.js"><\/script>')</script>
-        <script src="/js/dev/vendor/angular.min.js?build=Releases-5343"></script>
+        <script src="/js/dev/vendor/angular.min.js?build=Releases-5543"></script>
         <script type="text/javascript" src="/js/dev/conditional/markerclusterer.js"></script>
         <script src="/js/dev/mando/logic/localStorage-polyfill.js"></script>
     <script>
             /*! grunt-grunticon Stylesheet Loader - v2.1.6 | https://github.com/filamentgroup/grunticon | (c) 2015 Scott Jehl, Filament Group, Inc. | MIT license. */
             !function () { function e(e, n, t) { "use strict"; var o = window.document.createElement("link"), r = n || window.document.getElementsByTagName("script")[0], a = window.document.styleSheets; return o.rel = "stylesheet", o.href = e, o.media = "only x", r.parentNode.insertBefore(o, r), o.onloadcssdefined = function (e) { for (var n, t = 0; t < a.length; t++) a[t].href && a[t].href === o.href && (n = !0); n ? e() : setTimeout(function () { o.onloadcssdefined(e) }) }, o.onloadcssdefined(function () { o.media = t || "all" }), o } function n(e, n) { e.onload = function () { e.onload = null, n && n.call(e) }, "isApplicationInstalled" in navigator && "onloadcssdefined" in e && e.onloadcssdefined(n) } !function (t) { var o = function (r, a) { "use strict"; if (r && 3 === r.length) { var i = t.navigator, c = t.document, s = t.Image, d = !(!c.createElementNS || !c.createElementNS("http://www.w3.org/2000/svg", "svg").createSVGRect || !c.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#Image", "1.1") || t.opera && -1 === i.userAgent.indexOf("Chrome") || -1 !== i.userAgent.indexOf("Series40")), l = new s; l.onerror = function () { o.method = "png", o.href = r[2], e(r[2]) }, l.onload = function () { var t = 1 === l.width && 1 === l.height, i = r[t && d ? 0 : t ? 1 : 2]; t && d ? o.method = "svg" : t ? o.method = "datapng" : o.method = "png", o.href = i, n(e(i), a) }, l.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==", c.documentElement.className += " grunticon" } }; o.loadCSS = e, o.onloadCSS = n, t.grunticon = o }(this), function (e, n) { "use strict"; var t = n.document, o = "grunticon:", r = function (e) { if (t.attachEvent ? "complete" === t.readyState : "loading" !== t.readyState) e(); else { var n = !1; t.addEventListener("readystatechange", function () { n || (n = !0, e()) }, !1) } }, a = function (e) { return n.document.querySelector('link[href$="' + e + '"]') }, i = function (e) { var n, t, r, a, i, c, s = {}; if (n = e.sheet, !n) return s; t = n.cssRules ? n.cssRules : n.rules; for (var d = 0; d < t.length; d++) r = t[d].cssText, a = o + t[d].selectorText, i = r.split(");")[0].match(/US\-ASCII\,([^"']+)/), i && i[1] && (c = decodeURIComponent(i[1]), s[a] = c); return s }, c = function (e) { var n, r, a, i; a = "data-grunticon-embed"; for (var c in e) { i = c.slice(o.length); try { n = t.querySelectorAll(i) } catch (s) { continue } r = []; for (var d = 0; d < n.length; d++) null !== n[d].getAttribute(a) && r.push(n[d]); if (r.length) for (d = 0; d < r.length; d++) r[d].innerHTML = e[c], r[d].style.backgroundImage = "none", r[d].removeAttribute(a) } return r }, s = function (n) { "svg" === e.method && r(function () { c(i(a(e.href))), "function" == typeof n && n() }) }; e.embedIcons = c, e.getCSS = a, e.getIcons = i, e.ready = r, e.svgLoadedCallback = s, e.embedSVG = s }(grunticon, this) }();
-            grunticon(["/assets/icons/output/icons.data.svg.css?build=Releases-5343", "/assets/icons/output/icons.data.png.css?build=Releases-5343", "/assets/icons/output/icons.fallback.css?build=Releases-5343"], grunticon.svgLoadedCallback);
+            grunticon(["/assets/icons/output/icons.data.svg.css?build=Releases-5543", "/assets/icons/output/icons.data.png.css?build=Releases-5543", "/assets/icons/output/icons.fallback.css?build=Releases-5543"], grunticon.svgLoadedCallback);
 
     </script>
     <script type="text/javascript">
@@ -67,7 +67,7 @@
         var loaded = [], frag = !1; window.location.hash === enableFragment && (frag = !0); function loadScript(c, b) { var a = document.createElement("script"); a.type = "text/javascript"; a.readyState ? a.onreadystatechange = function () { if ("loaded" == a.readyState || "complete" == a.readyState) a.onreadystatechange = null, void 0 != b && b() } : void 0 != b && (a.onload = function () { b() }); a.src = c; document.getElementsByTagName("head")[0].appendChild(a) } function _rc(c) { c += "="; for (var b = document.cookie.split(";"), a = 0; a < b.length; a++) { for (var d = b[a]; " " == d.charAt(0);) d = d.substring(1, d.length); if (0 == d.indexOf(c)) return d.substring(c.length, d.length) } return null } function loadService(c) { for (var b = serviceUrl + serviceKey, a = 0; a < loaded.length; a++) if (loaded[a] == b) return; loaded.push(b); loadScript(serviceUrl + serviceKey, function () { "function" === typeof _reciteLoaded && _reciteLoaded(); "function" == typeof c && c(); Recite.load(options); Recite.Event.subscribe("Recite:load", function () { Recite.enable() }) }) } "true" == _rc("Recite.Persist") && loadService(); (autoLoad && "false" != _rc("Recite.Persist") || frag) && loadService();
     </script>
     <noscript>
-        <link href="/Static/assets/icons/output/icons.fallback.css?build=Releases-5343" rel="stylesheet">
+        <link href="/Static/assets/icons/output/icons.fallback.css?build=Releases-5543" rel="stylesheet">
     </noscript>
     <link rel="mask-icon" href="/assets/img/favicon/safari-pinned-tab.svg" color="#5bbad5">
     <link rel="apple-touch-icon" sizes="57x57" href="/assets/img/favicon/apple-touch-icon-57x57.png">
@@ -132,9 +132,9 @@ var google_remarketing_only = true;
 							<h2 class="c-cookie-preferences__title">
 								Cookie consent
 							</h2>
-							<p class="c-cookie-preferences__summary">
+							<div class="c-cookie-preferences__summary">
 								<p>We use cookies to track how you use our website to help improve your experience and show you personalised content. You can accept the use of all cookies or manage them individually. You can find out more about your options by clicking &ldquo;manage cookies".</p>
-							</p>
+							</div>
 						</div>
 						<div class="c-cookie-preferences__head-actions">
 							<button class="c-button-primary js-accept-all-cta" type="button">Accept All Cookies</button>
@@ -176,8 +176,8 @@ var google_remarketing_only = true;
 								<div class="c-cookie-preferences__controls">
 									<input class="c-cookie-preferences__radio" id="targeted-advertising-yes" name="advertisingCookies" type="radio" value="true">
 									<label class="c-cookie-preferences__label" for="targeted-advertising-yes">Yes</label>
-									<input class="c-cookie-preferences__radio" id="targeted-advertising-no" name="advertisingCookies" type="radio" value="false">
-									<label class="c-cookie-preferences__label" for="targeted-advertising-no" checked>No</label>
+									<input class="c-cookie-preferences__radio" id="targeted-advertising-no" name="advertisingCookies" type="radio" value="false" checked>
+									<label class="c-cookie-preferences__label" for="targeted-advertising-no">No</label>
 								</div>
 							</div>
 						</div>
@@ -242,8 +242,7 @@ var google_remarketing_only = true;
 
         <div class="c-navigation__menu js-navigation__menu">
             <ul id="main-navigation" class="c-navigation__list" tabindex="-1">
-
-                ﻿
+              ﻿
 
     <li class="c-navigation__item--dropdown">
 
@@ -802,8 +801,7 @@ var google_remarketing_only = true;
 
 
 
-
-                <li class="c-navigation__item--search-item">
+              <li class="c-navigation__item--search-item">
                     <span class="c-navigation__link">
                         <a class="c-navigation-menu__link js-ga" data-ga-action="Click Search" data-ga-event="header_tracking" data-ga-label="Search" href="javascript:void(0)" data-toggle="search">
                             <span class="c-navigation__search-text-label">Search</span>
@@ -880,7 +878,7 @@ var google_remarketing_only = true;
                     <h1 class="c-group-title__heading">Reservoir levels</h1>
                 </div>
             </div>
-<div><div><section class="none">
+<div><div class="block editorialcontentblock col-lg-12 col-md-12 col-sm-12 col-xs-12"><section class="none">
 	<div class="o-wrapper__inner">
 		<div class="c-rte">
 			<div class="c-rte-container">
@@ -890,7 +888,7 @@ var google_remarketing_only = true;
 	</div>
 </section>
 
-	</div><div><section class="none">
+	</div><div class="block tableblock col-lg-12 col-md-12 col-sm-12 col-xs-12"><section class="none">
     <div class="o-wrapper__inner">
         <div class="c-table__wrapper">
             <div class="c-table">
@@ -951,7 +949,7 @@ var google_remarketing_only = true;
             </div>
         </div>
     </div>
-</section></div><div><section class="none">
+</section></div><div class="block tableblock col-lg-12 col-md-12 col-sm-12 col-xs-12"><section class="none">
     <div class="o-wrapper__inner">
         <div class="c-table__wrapper">
             <div class="c-table">
@@ -971,10 +969,10 @@ var google_remarketing_only = true;
 </main>
 
 
-            <div><div>
-</div><div>
-</div><div>
-</div><div>
+            <div><div class="block splashscreenmodalblock col-lg-12 col-md-12 col-sm-12 col-xs-12">
+</div><div class="block splashscreenmodalblock col-lg-12 col-md-12 col-sm-12 col-xs-12">
+</div><div class="block splashscreenmodalblock col-lg-12 col-md-12 col-sm-12 col-xs-12">
+</div><div class="block splashscreenmodalblock col-lg-12 col-md-12 col-sm-12 col-xs-12">
 </div></div>
 
 
@@ -1011,14 +1009,14 @@ var google_remarketing_only = true;
                         Follow us
                     </div>
                     <div class="c-footer-item-body">
-                            <ul class="c-footer-social-media"><li class="c-social-media__item">    
-    <a class="c-social-media__link js-ga" data-ga-action="Click facebook" data-ga-event="footer_tracking" data-ga-label="https://www.facebook.com/OfficialUnitedUtilities" target="_blank" title="Opens in new window" href="https://www.facebook.com/OfficialUnitedUtilities"><span class="c-social-media__icon icon-facebook" data-grunticon-embed></span><span class="visually-hidden">facebook</span></a>
-</li><li class="c-social-media__item">    
-    <a class="c-social-media__link js-ga" data-ga-action="Click twitter" data-ga-event="footer_tracking" data-ga-label="https://twitter.com/unitedutilities" target="_blank" title="Opens in new window" href="https://twitter.com/unitedutilities"><span class="c-social-media__icon icon-twitter" data-grunticon-embed></span><span class="visually-hidden">twitter</span></a>
-</li><li class="c-social-media__item">    
-    <a class="c-social-media__link js-ga" data-ga-action="Click youtube" data-ga-event="footer_tracking" data-ga-label="https://www.youtube.com/user/unitedutilities" target="_blank" title="Opens in new window" href="https://www.youtube.com/user/unitedutilities"><span class="c-social-media__icon icon-youtube" data-grunticon-embed></span><span class="visually-hidden">youtube</span></a>
-</li><li class="c-social-media__item">    
-    <a class="c-social-media__link js-ga" data-ga-action="Click instagram" data-ga-event="footer_tracking" data-ga-label="https://www.instagram.com/unitedutilities/" target="_blank" title="Opens in new window" href="https://www.instagram.com/unitedutilities/"><span class="c-social-media__icon icon-instagram" data-grunticon-embed></span><span class="visually-hidden">instagram</span></a>
+                            <ul class="c-footer-social-media"><li class="block socialmediafollowlinkitemblock col-lg-12 col-md-12 col-sm-12 col-xs-12 c-social-media__item">    
+    <a class="c-social-media__link js-ga" data-ga-action="Click facebook" data-ga-event="footer_tracking" data-ga-label="https://www.facebook.com/OfficialUnitedUtilities" target="_blank" title="Opens in new window" href="https://www.facebook.com/OfficialUnitedUtilities"><span class="c-social-media__icon icon-facebook" data-grunticon-embed=""></span><span class="visually-hidden">facebook</span></a>
+</li><li class="block socialmediafollowlinkitemblock col-lg-12 col-md-12 col-sm-12 col-xs-12 c-social-media__item">    
+    <a class="c-social-media__link js-ga" data-ga-action="Click twitter" data-ga-event="footer_tracking" data-ga-label="https://twitter.com/unitedutilities" target="_blank" title="Opens in new window" href="https://twitter.com/unitedutilities"><span class="c-social-media__icon icon-twitter" data-grunticon-embed=""></span><span class="visually-hidden">twitter</span></a>
+</li><li class="block socialmediafollowlinkitemblock col-lg-12 col-md-12 col-sm-12 col-xs-12 c-social-media__item">    
+    <a class="c-social-media__link js-ga" data-ga-action="Click youtube" data-ga-event="footer_tracking" data-ga-label="https://www.youtube.com/user/unitedutilities" target="_blank" title="Opens in new window" href="https://www.youtube.com/user/unitedutilities"><span class="c-social-media__icon icon-youtube" data-grunticon-embed=""></span><span class="visually-hidden">youtube</span></a>
+</li><li class="block socialmediafollowlinkitemblock col-lg-12 col-md-12 col-sm-12 col-xs-12 c-social-media__item">    
+    <a class="c-social-media__link js-ga" data-ga-action="Click instagram" data-ga-event="footer_tracking" data-ga-label="https://www.instagram.com/unitedutilities/" target="_blank" title="Opens in new window" href="https://www.instagram.com/unitedutilities/"><span class="c-social-media__icon icon-instagram" data-grunticon-embed=""></span><span class="visually-hidden">instagram</span></a>
 </li></ul>
                     </div>
                 </div>
@@ -1054,31 +1052,31 @@ var google_remarketing_only = true;
             </ul>
         </div>
         <div class="c-footer-item-body js-ga-delegate" data-ga-action="Click" data-ga-event="footer_tracking" style="padding: 0;">
-			<ul class="c-footer-footer-images"><li class="c-footer-image__item">
-<section class="none">
+			<ul class="c-footer-footer-images"><li class="block footerimageblock col-lg-12 col-md-12 col-sm-12 col-xs-12 c-footer-image__item">
+<div class="none">
 	
 		<img class="c-footer-image__image" src="https://www.unitedutilities.com/globalassets/images/logos/ics-logo.jpg" alt="ICS Logo">
 	
-</section></li><li class="c-footer-image__item">
-<section class="none">
+</div></li><li class="block footerimageblock col-lg-12 col-md-12 col-sm-12 col-xs-12 c-footer-image__item">
+<div class="none">
 	
 		<img class="c-footer-image__image" src="https://www.unitedutilities.com/globalassets/images/bsi2.jpg" alt="Inclusive Service Provision">
 	
-</section></li><li class="c-footer-image__item">
-<section class="none">
+</div></li><li class="block footerimageblock col-lg-12 col-md-12 col-sm-12 col-xs-12 c-footer-image__item">
+<div class="none">
 	
 		<img class="c-footer-image__image" src="https://www.unitedutilities.com/globalassets/shawtrust_accessible.gif" alt="Our site is accessibile ">
 	
-</section></li></ul>
+</div></li></ul>
         </div>																	
     </div>
 </footer>
         </div>
         
 
-            <script src="/js/dev/lib/jspdf.min.js?build=Releases-5343"></script>
-            <script src="/js/dist/vendor.min.js?build=Releases-5343"></script>
-            <script src="/js/dist/mando.min.js?build=Releases-5343"></script>
+            <script src="/js/dev/lib/jspdf.min.js?build=Releases-5543"></script>
+            <script src="/js/dist/vendor.min.js?build=Releases-5543"></script>
+            <script src="/js/dist/mando.min.js?build=Releases-5543"></script>
         
         
 <noscript>

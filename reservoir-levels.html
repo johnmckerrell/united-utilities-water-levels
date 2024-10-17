@@ -36,17 +36,17 @@
     
     <link href="https://services.postcodeanywhere.co.uk/css/address-3.91.css" rel="stylesheet" />
     
-    <link href="/assets/styles/main.css?build=2.554.0-beta0002" rel="stylesheet" />
-    <script src="/js/dist/modernizr.js?build=2.554.0-beta0002"></script>
+    <link href="/assets/styles/main.css?build=2.555.0-beta0000" rel="stylesheet" />
+    <script src="/js/dist/modernizr.js?build=2.555.0-beta0000"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="/js/dev/lib/jquery.min.js"><\/script>')</script>
-    <script src="/js/dev/vendor/angular.min.js?build=2.554.0-beta0002"></script>
+    <script src="/js/dev/vendor/angular.min.js?build=2.555.0-beta0000"></script>
     <script type="text/javascript" src="/js/dev/conditional/markerclusterer.js"></script>
     <script src="/js/dev/mando/logic/localStorage-polyfill.js"></script>
     <script>
             /*! grunt-grunticon Stylesheet Loader - v2.1.6 | https://github.com/filamentgroup/grunticon | (c) 2015 Scott Jehl, Filament Group, Inc. | MIT license. */
             !function () { function e(e, n, t) { "use strict"; var o = window.document.createElement("link"), r = n || window.document.getElementsByTagName("script")[0], a = window.document.styleSheets; return o.rel = "stylesheet", o.href = e, o.media = "only x", r.parentNode.insertBefore(o, r), o.onloadcssdefined = function (e) { for (var n, t = 0; t < a.length; t++) a[t].href && a[t].href === o.href && (n = !0); n ? e() : setTimeout(function () { o.onloadcssdefined(e) }) }, o.onloadcssdefined(function () { o.media = t || "all" }), o } function n(e, n) { e.onload = function () { e.onload = null, n && n.call(e) }, "isApplicationInstalled" in navigator && "onloadcssdefined" in e && e.onloadcssdefined(n) } !function (t) { var o = function (r, a) { "use strict"; if (r && 3 === r.length) { var i = t.navigator, c = t.document, s = t.Image, d = !(!c.createElementNS || !c.createElementNS("http://www.w3.org/2000/svg", "svg").createSVGRect || !c.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#Image", "1.1") || t.opera && -1 === i.userAgent.indexOf("Chrome") || -1 !== i.userAgent.indexOf("Series40")), l = new s; l.onerror = function () { o.method = "png", o.href = r[2], e(r[2]) }, l.onload = function () { var t = 1 === l.width && 1 === l.height, i = r[t && d ? 0 : t ? 1 : 2]; t && d ? o.method = "svg" : t ? o.method = "datapng" : o.method = "png", o.href = i, n(e(i), a) }, l.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==", c.documentElement.className += " grunticon" } }; o.loadCSS = e, o.onloadCSS = n, t.grunticon = o }(this), function (e, n) { "use strict"; var t = n.document, o = "grunticon:", r = function (e) { if (t.attachEvent ? "complete" === t.readyState : "loading" !== t.readyState) e(); else { var n = !1; t.addEventListener("readystatechange", function () { n || (n = !0, e()) }, !1) } }, a = function (e) { return n.document.querySelector('link[href$="' + e + '"]') }, i = function (e) { var n, t, r, a, i, c, s = {}; if (n = e.sheet, !n) return s; t = n.cssRules ? n.cssRules : n.rules; for (var d = 0; d < t.length; d++) r = t[d].cssText, a = o + t[d].selectorText, i = r.split(");")[0].match(/US\-ASCII\,([^"']+)/), i && i[1] && (c = decodeURIComponent(i[1]), s[a] = c); return s }, c = function (e) { var n, r, a, i; a = "data-grunticon-embed"; for (var c in e) { i = c.slice(o.length); try { n = t.querySelectorAll(i) } catch (s) { continue } r = []; for (var d = 0; d < n.length; d++) null !== n[d].getAttribute(a) && r.push(n[d]); if (r.length) for (d = 0; d < r.length; d++) r[d].innerHTML = e[c], r[d].style.backgroundImage = "none", r[d].removeAttribute(a) } return r }, s = function (n) { "svg" === e.method && r(function () { c(i(a(e.href))), "function" == typeof n && n() }) }; e.embedIcons = c, e.getCSS = a, e.getIcons = i, e.ready = r, e.svgLoadedCallback = s, e.embedSVG = s }(grunticon, this) }();
-            grunticon(["/assets/icons/output/icons.data.svg.css?build=2.554.0-beta0002", "/assets/icons/output/icons.data.png.css?build=2.554.0-beta0002", "/assets/icons/output/icons.fallback.css?build=2.554.0-beta0002"], grunticon.svgLoadedCallback);
+            grunticon(["/assets/icons/output/icons.data.svg.css?build=2.555.0-beta0000", "/assets/icons/output/icons.data.png.css?build=2.555.0-beta0000", "/assets/icons/output/icons.fallback.css?build=2.555.0-beta0000"], grunticon.svgLoadedCallback);
 
     </script>
     <script type="text/javascript">
@@ -76,7 +76,7 @@
         var loaded = [], frag = !1; window.location.hash === enableFragment && (frag = !0); function loadScript(c, b) { var a = document.createElement("script"); a.type = "text/javascript"; a.readyState ? a.onreadystatechange = function () { if ("loaded" == a.readyState || "complete" == a.readyState) a.onreadystatechange = null, void 0 != b && b() } : void 0 != b && (a.onload = function () { b() }); a.src = c; document.getElementsByTagName("head")[0].appendChild(a) } function _rc(c) { c += "="; for (var b = document.cookie.split(";"), a = 0; a < b.length; a++) { for (var d = b[a]; " " == d.charAt(0);) d = d.substring(1, d.length); if (0 == d.indexOf(c)) return d.substring(c.length, d.length) } return null } function loadService(c) { for (var b = serviceUrl + serviceKey, a = 0; a < loaded.length; a++) if (loaded[a] == b) return; loaded.push(b); loadScript(serviceUrl + serviceKey, function () { "function" === typeof _reciteLoaded && _reciteLoaded(); "function" == typeof c && c(); Recite.load(options); Recite.Event.subscribe("Recite:load", function () { Recite.enable() }) }) } "true" == _rc("Recite.Persist") && loadService(); (autoLoad && "false" != _rc("Recite.Persist") || frag) && loadService();
     </script>
     <noscript>
-        <link href="/assets/icons/output/icons.fallback.css?build=2.554.0-beta0002" rel="stylesheet">
+        <link href="/assets/icons/output/icons.fallback.css?build=2.555.0-beta0000" rel="stylesheet">
     </noscript>
     <link rel="mask-icon" href="/assets/img/favicon/safari-pinned-tab.svg" color="#5bbad5">
     <link rel="apple-touch-icon" sizes="57x57" href="/assets/img/favicon/apple-touch-icon-57x57.png">
@@ -975,7 +975,7 @@ var google_remarketing_only = true;
                 <table style="width: 100%; min-width: 800px;" border="0">
 <thead>
 <tr>
-<th style="text-align: center;" scope="col" width="40%"><strong>6th October 2024</strong></th>
+<th style="text-align: center;" scope="col" width="40%"><strong>13th October 2024</strong></th>
 <th style="text-align: center;" scope="col"><strong>Actual stock</strong></th>
 <th style="text-align: center;" scope="col"><strong>Change since last week</strong></th>
 <th style="text-align: center;" scope="col"><strong>Average year</strong></th>
@@ -985,38 +985,38 @@ var google_remarketing_only = true;
 <tbody>
 <tr style="text-align: center; border-bottom: none;">
 <th style="font-weight: bold; font-size: 1rem; padding: 1.25rem 1.875rem;" scope="row">Regional Total</th>
-<td width="95">75.4%</td>
-<td width="95">0.8%</td>
-<td width="95">71.6%</td>
-<td width="95">80.9%</td>
+<td width="95">74.7%</td>
+<td width="95">-0.7%</td>
+<td width="95">73.9%</td>
+<td width="95">82.4%</td>
 </tr>
 <tr style="text-align: center;">
 <th style="font-weight: bold; font-size: 1rem; padding: 1.25rem 1.875rem;" scope="row">Carlisle</th>
-<td>81.0%</td>
-<td>-1.2%</td>
-<td>87.2%</td>
-<td>94.2%</td>
+<td>82.2%</td>
+<td>1.2%</td>
+<td>91.1%</td>
+<td>98.2%</td>
 </tr>
 <tr style="text-align: center;">
 <th style="font-weight: bold; font-size: 1rem; padding: 1.25rem 1.875rem;" scope="row">Haweswater &amp; Thirlmere</th>
-<td>69.6%</td>
-<td>-3.9%</td>
-<td>62.3%</td>
-<td>79.3%</td>
+<td>67.3%</td>
+<td>-2.3%</td>
+<td>66.0%</td>
+<td>83.1%</td>
 </tr>
 <tr style="text-align: center;">
 <th style="font-weight: bold; font-size: 1rem; padding: 1.25rem 1.875rem;" scope="row">Pennine Sources</th>
-<td>72.5%</td>
-<td>5.9%</td>
-<td>70.6%</td>
-<td>87.7%</td>
+<td>72.4%</td>
+<td>-0.1%</td>
+<td>72.7%</td>
+<td>89.5%</td>
 </tr>
 <tr>
 <th style="font-weight: bold; font-size: 1rem; padding: 1.25rem 1.875rem;" scope="row">Dee &amp; Vyrnwy Reservoirs</th>
-<td style="text-align: center;">80.2%</td>
-<td style="text-align: center;">0.6%</td>
+<td style="text-align: center;">80.3%</td>
+<td style="text-align: center;">0.1%</td>
+<td style="text-align: center;">77.8%</td>
 <td style="text-align: center;">75.9%</td>
-<td style="text-align: center;">75.8%</td>
 </tr>
 </tbody>
 </table>
@@ -1033,7 +1033,7 @@ var google_remarketing_only = true;
 <tr>
 <th style="text-align: left; font-weight: bold; font-size: 1rem; padding: 1.25rem 1.875rem;" scope="row">Water level at Thirlmere (metres below top water level)</th>
 <td>
-<p>3.74</p>
+<p>4.05</p>
 </td>
 </tr>
 </tbody>
@@ -1049,7 +1049,56 @@ var google_remarketing_only = true;
             <div><div class="block splashscreenmodalblock col-lg-12 col-md-12 col-sm-12 col-xs-12">
 </div><div class="block splashscreenmodalblock col-lg-12 col-md-12 col-sm-12 col-xs-12">
 </div><div class="block splashscreenmodalblock col-lg-12 col-md-12 col-sm-12 col-xs-12">
-</div><div class="block splashscreenmodalblock col-lg-12 col-md-12 col-sm-12 col-xs-12">
+</div><div class="block splashscreenmodalblock col-lg-12 col-md-12 col-sm-12 col-xs-12">    <div class="u-area-color--pink">
+        <div class="c-splash-screen-modal">
+            <div class="c-splash-screen-modal__overlay">
+                <div class="c-splash-screen-modal__outer o-wrapper__inner">
+                    <div class="c-splash-screen-modal__inner">
+                        <div class="c-splash-screen-modal__image-wrapper">
+                            <div class="c-splash-screen-modal__image-inner">
+                                <div class="c-splash-screen-modal__image" style="background-image: url(/globalassets/images/splash-page-images/white-background-splash2.png);">
+                                    <span class="icon-warning inherit-area-color c-splash-screen-modal__icon" data-grunticon-embed=""></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="u-area-color__background">
+                            <h2 class="c-splash-screen-modal__heading">
+                                Important Notice
+                            </h2>
+                        </div>
+                        <div class="c--splash-screen-modal__scroll-container">
+                            <div class="c-splash-screen-modal__content">
+                                <h3 class="c-splash-screen-modal__sub-heading">
+                                    Heavy rainfall and sewer flooding
+                                </h3>
+
+                                <div class="c-splash-screen-modal__text">
+                                    <p>Heavy rainfall across the North West may be causing flooding in some parts of the region. Our teams are out working hard across the region helping our customers who have experienced sewer flooding in their homes.</p>
+<p>If you&rsquo;re experiencing flooding from a road or footpath and there is no evidence of sewage (toilet paper etc.) please report this to your local council, who are responsible for highways drainage flooding.</p>
+<p>Please be aware that our phone lines are much busier than normal, take a look at our flooding page for further advice on what to do if you&rsquo;re affected by flooding.</p>
+                                </div>
+
+                                <div class="c-splash-screen-modal__text--mobile">
+                                    <p>Heavy rainfall across the North West may be causing flooding in some parts of the region. Our teams are out working hard across the region helping our customers who have experienced sewer flooding in their homes.</p>
+                                </div>
+
+                                    <a class="c-splash-screen-modal__text-link" href="/emergencies/got-a-problem/flooding/" title="Flooding advice" target="_self">
+                                        Flooding advice
+                                    </a>
+                            </div>
+                        </div>
+                        <div class="c-splash-screen-modal__acceptance">
+                            <p class="c-splash-screen-modal__acceptance-text">
+                                Please click the button below to confirm you have seen this message
+                            </p>
+                            <a class="c-button-inherit-area-color c-splash-screen-modal__acceptance-btn" title="I have read this info" href="javascript:void(0);">I have read this info</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div></div>
 
 
@@ -1161,19 +1210,19 @@ var google_remarketing_only = true;
         </div>
 
         <script src="https://services.postcodeanywhere.co.uk/js/address-3.91.js"></script>
-        <script src="/js/dist/es2015/vendor.js?build=2.554.0-beta0002"></script>
-        <script src="/js/dist/es2015/main.js?build=2.554.0-beta0002"></script>
+        <script src="/js/dist/es2015/vendor.js?build=2.555.0-beta0000"></script>
+        <script src="/js/dist/es2015/main.js?build=2.555.0-beta0000"></script>
 
-        <script src="/js/dev/lib/jspdf.min.js?build=2.554.0-beta0002"></script>
-        <script src="/js/dist/vendor.min.js?build=2.554.0-beta0002"></script>
-        <script src="/js/dist/mando.min.js?build=2.554.0-beta0002"></script>
+        <script src="/js/dev/lib/jspdf.min.js?build=2.555.0-beta0000"></script>
+        <script src="/js/dist/vendor.min.js?build=2.555.0-beta0000"></script>
+        <script src="/js/dist/mando.min.js?build=2.555.0-beta0000"></script>
         
         
 <noscript>
 	<img src="/util/LiveMonitor/Tracking/Index?contentId=400&amp;languageId=en" alt="" style="display:none" />
 </noscript>
 
-<script type="text/javascript" src="https://dl.episerver.net/13.5.9/epi-util/find.js"></script>
+<script type="text/javascript" src="https://dl.episerver.net/13.5.10/epi-util/find.js"></script>
 <script type="text/javascript">
 void(function(){var tUrl = "/util/LiveMonitor/Tracking/Index?contentId=400&languageId=en";tUrl += (tUrl.indexOf("?") > 0 ? "&" : "?");var tUrl1 = tUrl + "r=" + Math.random() + "&referrer=" + escape(document.referrer);document.write("<img id='LiveMonTransparentImage' src='" + tUrl1 + "' alt='' width='1' height='1'/>");window.onpageshow = function (ev) {if (ev && ev.persisted){document.getElementById("LiveMonTransparentImage").src = tUrl + "r=" + Math.random() + "&referrer=" + escape(document.referrer);}}}());
 </script>

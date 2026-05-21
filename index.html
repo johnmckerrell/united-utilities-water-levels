@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>United Utilities Reservoir Levels</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+  <style>
+    :root {
+      --bg: #f0f4f8;
+      --card: #ffffff;
+      --text: #1a202c;
+      --muted: #718096;
+      --border: #e2e8f0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    header { margin-bottom: 1.5rem; }
+    h1 { font-size: 1.75rem; font-weight: 700; }
+    .subtitle { color: var(--muted); margin-top: 0.3rem; font-size: 0.875rem; }
+    .subtitle a { color: var(--muted); }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+    .stat-card {
+      background: var(--card);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+    .stat-name {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.4rem;
+    }
+    .stat-value { font-size: 1.9rem; font-weight: 700; line-height: 1; }
+    .stat-unit { font-size: 1rem; font-weight: 400; }
+    .stat-meta { font-size: 0.8rem; margin-top: 0.4rem; color: var(--muted); }
+    .stat-change { font-size: 0.8rem; margin-top: 0.2rem; font-weight: 600; }
+    .up { color: #38a169; }
+    .down { color: #e53e3e; }
+
+    .chart-card {
+      background: var(--card);
+      border-radius: 8px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.25rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+    .chart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .chart-title { font-size: 1rem; font-weight: 600; }
+    .controls { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .toggle-btn {
+      padding: 0.2rem 0.7rem;
+      border-radius: 999px;
+      border: 2px solid #cbd5e0;
+      font-size: 0.78rem;
+      cursor: pointer;
+      background: transparent;
+      color: var(--muted);
+      font-weight: 500;
+      transition: all 0.15s;
+    }
+    .toggle-btn.active {
+      border-color: #4a5568;
+      background: #4a5568;
+      color: white;
+    }
+    canvas { max-height: 420px; }
+    #error-msg {
+      background: #fff5f5;
+      border: 1px solid #fed7d7;
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      color: #c53030;
+      display: none;
+    }
+    #error-msg code { font-size: 0.85rem; background: #fed7d7; padding: 0.1rem 0.3rem; border-radius: 3px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>United Utilities Reservoir Levels</h1>
+    <p class="subtitle">
+      Weekly readings &middot; data date: <strong id="last-updated">loading&hellip;</strong>
+      &middot; <a href="https://www.unitedutilities.com/help-and-support/your-water-supply/your-reservoirs/reservoir-levels/" target="_blank">source</a>
+    </p>
+  </header>
+
+  <div id="error-msg">
+    <strong>Could not load data.json.</strong> If opening this file locally, run a server first:<br>
+    <code>python3 -m http.server</code> then open <code>http://localhost:8000</code>
+  </div>
+
+  <div class="stats-grid" id="stats-grid"></div>
+
+  <div class="chart-card">
+    <div class="chart-header">
+      <span class="chart-title">Reservoir levels over time</span>
+      <div class="controls">
+        <button class="toggle-btn" id="btn-avg" onclick="toggleOverlay('avg')">Avg year</button>
+        <button class="toggle-btn" id="btn-lastyear" onclick="toggleOverlay('lastyear')">Last year</button>
+      </div>
+    </div>
+    <canvas id="levels-chart"></canvas>
+  </div>
+
+  <div class="chart-card" id="thirlmere-card" style="display:none">
+    <div class="chart-header">
+      <span class="chart-title">Thirlmere: metres below top water level</span>
+      <span style="font-size:0.8rem;color:var(--muted)">lower = fuller</span>
+    </div>
+    <canvas id="thirlmere-chart"></canvas>
+  </div>
+
+  <script>
+  // Colour palette — one per region (6 to cover West Cumbria in 2022 data)
+  const PALETTE = ['#0077b6', '#e07b00', '#2d6a4f', '#c0392b', '#6c3483', '#0097a7'];
+
+  let allData = [];
+  let levelsChart = null;
+  const overlay = { avg: false, lastyear: false };
+
+  async function init() {
+    let resp;
+    try {
+      resp = await fetch('data.json');
+    } catch (e) {
+      document.getElementById('error-msg').style.display = '';
+      return;
+    }
+    if (!resp.ok) {
+      document.getElementById('error-msg').style.display = '';
+      return;
+    }
+    allData = await resp.json();
+    if (!allData.length) return;
+
+    const latest = allData[allData.length - 1];
+    document.getElementById('last-updated').textContent = fmtDate(latest.date);
+    renderStats(latest);
+    renderLevelsChart();
+    renderThirlmereChart();
+  }
+
+  function fmtDate(d) {
+    return new Date(d + 'T12:00:00').toLocaleDateString('en-GB', {
+      day: 'numeric', month: 'long', year: 'numeric',
+    });
+  }
+
+  function renderStats(latest) {
+    const grid = document.getElementById('stats-grid');
+    latest.reservoirs.forEach((r, i) => {
+      const color = PALETTE[i % PALETTE.length];
+      const changeClass = r.change == null ? '' : r.change >= 0 ? 'up' : 'down';
+      const changeSign = r.change != null && r.change >= 0 ? '+' : '';
+      const card = document.createElement('div');
+      card.className = 'stat-card';
+      card.innerHTML =
+        `<div class="stat-name">${r.name}</div>` +
+        `<div class="stat-value" style="color:${color}">${r.actual != null ? r.actual.toFixed(1) : '—'}<span class="stat-unit">%</span></div>` +
+        `<div class="stat-change ${changeClass}">${r.change != null ? changeSign + r.change.toFixed(1) + '% this week' : ''}</div>` +
+        `<div class="stat-meta">avg ${r.avgYear != null ? r.avgYear.toFixed(1) + '%' : '—'}</div>`;
+      grid.appendChild(card);
+    });
+
+    if (latest.thirlmereDepth != null) {
+      const card = document.createElement('div');
+      card.className = 'stat-card';
+      card.innerHTML =
+        `<div class="stat-name">Thirlmere depth</div>` +
+        `<div class="stat-value" style="color:#2d6a4f">${latest.thirlmereDepth.toFixed(2)}<span class="stat-unit"> m</span></div>` +
+        `<div class="stat-meta">below top water level</div>`;
+      grid.appendChild(card);
+    }
+  }
+
+  function regionNames() {
+    // Start with latest record's names (current regions), then append any
+    // historical names (e.g. West Cumbria, present only in 2022 data).
+    const latest = allData[allData.length - 1]?.reservoirs.map(r => r.name) ?? [];
+    const seen = new Set(latest);
+    const extra = [];
+    for (const rec of allData) {
+      for (const r of rec.reservoirs) {
+        if (!seen.has(r.name)) { seen.add(r.name); extra.push(r.name); }
+      }
+    }
+    return [...latest, ...extra];
+  }
+
+  function buildDatasets() {
+    const names = regionNames();
+    const datasets = [];
+    names.forEach((name, i) => {
+      const color = PALETTE[i % PALETTE.length];
+      datasets.push({
+        label: name,
+        data: allData.map(rec => rec.reservoirs.find(r => r.name === name)?.actual ?? null),
+        borderColor: color,
+        backgroundColor: color + '18',
+        borderWidth: 2.5,
+        pointRadius: 1.5,
+        tension: 0.3,
+        fill: false,
+      });
+      if (overlay.avg) {
+        datasets.push({
+          label: name + ' (avg year)',
+          data: allData.map(rec => rec.reservoirs.find(r => r.name === name)?.avgYear ?? null),
+          borderColor: color,
+          borderDash: [6, 4],
+          borderWidth: 1.5,
+          pointRadius: 0,
+          tension: 0.3,
+          fill: false,
+        });
+      }
+      if (overlay.lastyear) {
+        datasets.push({
+          label: name + ' (last year)',
+          data: allData.map(rec => rec.reservoirs.find(r => r.name === name)?.lastYear ?? null),
+          borderColor: color,
+          borderDash: [2, 4],
+          borderWidth: 1.5,
+          pointRadius: 0,
+          tension: 0.3,
+          fill: false,
+        });
+      }
+    });
+    return datasets;
+  }
+
+  const yearBandsPlugin = {
+    id: 'yearBands',
+    beforeDraw(chart) {
+      const { ctx, chartArea, scales } = chart;
+      if (!chartArea || !scales.x) return;
+      const labels = chart.data.labels;
+      if (!labels || !labels.length) return;
+      const minYear = new Date(labels[0] + 'T12:00:00').getFullYear();
+      const maxYear = new Date(labels[labels.length - 1] + 'T12:00:00').getFullYear();
+      ctx.save();
+      for (let year = minYear; year <= maxYear; year++) {
+        if (year % 2 === 0) continue;  // even years = white (default)
+        const x0 = Math.max(scales.x.getPixelForValue(new Date(year, 0, 1).getTime()), chartArea.left);
+        const x1 = Math.min(scales.x.getPixelForValue(new Date(year + 1, 0, 1).getTime()), chartArea.right);
+        if (x1 <= x0) continue;
+        ctx.fillStyle = 'rgba(0,0,0,0.04)';
+        ctx.fillRect(x0, chartArea.top, x1 - x0, chartArea.bottom - chartArea.top);
+      }
+      ctx.restore();
+    },
+  };
+
+  function renderLevelsChart() {
+    const ctx = document.getElementById('levels-chart').getContext('2d');
+    levelsChart = new Chart(ctx, {
+      type: 'line',
+      plugins: [yearBandsPlugin],
+      data: { labels: allData.map(r => r.date), datasets: buildDatasets() },
+      options: {
+        responsive: true,
+        interaction: { mode: 'index', intersect: false },
+        scales: {
+          x: {
+            type: 'time',
+            time: { tooltipFormat: 'd MMM yyyy' },
+            grid: { color: '#e2e8f0' },
+          },
+          y: {
+            min: 0, max: 100,
+            ticks: { callback: v => v + '%' },
+            grid: { color: '#e2e8f0' },
+          },
+        },
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: { boxWidth: 12, padding: 16 },
+            onClick(e, legendItem, legend) {
+              const chart = legend.chart;
+              const idx = legendItem.datasetIndex;
+              const soloActive = chart.data.datasets.every((_, i) =>
+                i === idx ? !chart.getDatasetMeta(i).hidden : chart.getDatasetMeta(i).hidden
+              );
+              chart.data.datasets.forEach((_, i) => {
+                chart.getDatasetMeta(i).hidden = soloActive ? false : i !== idx;
+              });
+              chart.update();
+            },
+          },
+          tooltip: {
+            callbacks: {
+              label: ctx => `${ctx.dataset.label}: ${ctx.parsed.y != null ? ctx.parsed.y.toFixed(1) + '%' : '—'}`,
+            },
+          },
+        },
+      },
+    });
+  }
+
+  function toggleOverlay(type) {
+    overlay[type] = !overlay[type];
+    document.getElementById(`btn-${type}`).classList.toggle('active', overlay[type]);
+    if (levelsChart) {
+      levelsChart.data.datasets = buildDatasets();
+      levelsChart.update();
+    }
+  }
+
+  function renderThirlmereChart() {
+    const pts = allData.filter(r => r.thirlmereDepth != null);
+    if (!pts.length) return;
+    document.getElementById('thirlmere-card').style.display = '';
+    const ctx = document.getElementById('thirlmere-chart').getContext('2d');
+    new Chart(ctx, {
+      type: 'line',
+      plugins: [yearBandsPlugin],
+      data: {
+        labels: pts.map(r => r.date),
+        datasets: [{
+          label: 'Depth (m)',
+          data: pts.map(r => r.thirlmereDepth),
+          borderColor: '#2d6a4f',
+          backgroundColor: '#2d6a4f18',
+          borderWidth: 2,
+          pointRadius: 2,
+          tension: 0.3,
+          fill: true,
+        }],
+      },
+      options: {
+        responsive: true,
+        scales: {
+          x: {
+            type: 'time',
+            time: { tooltipFormat: 'd MMM yyyy' },
+            grid: { color: '#e2e8f0' },
+          },
+          y: {
+            reverse: true,
+            ticks: { callback: v => v + ' m' },
+            grid: { color: '#e2e8f0' },
+          },
+        },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: ctx => `${ctx.parsed.y?.toFixed(2)} m below top`,
+            },
+          },
+        },
+      },
+    });
+  }
+
+  init().catch(() => {
+    document.getElementById('error-msg').style.display = '';
+  });
+  </script>
+</body>
+</html>

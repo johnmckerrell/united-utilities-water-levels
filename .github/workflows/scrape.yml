@@ -12,9 +12,13 @@ jobs:
     steps:
     - name: Check out this repo
       uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
     - name: Fetch latest data
       run: |-
         curl https://www.unitedutilities.com/help-and-support/your-water-supply/your-reservoirs/reservoir-levels/ > reservoir-levels.html
+    - name: Parse data into data.json
+      run: python3 parse.py
     - name: Commit and push if it changed
       run: |-
         git config user.name "Automated"

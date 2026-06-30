@@ -120,6 +120,11 @@
     <div class="chart-header">
       <span class="chart-title">Reservoir levels over time</span>
       <div class="controls">
+        <button class="toggle-btn" id="btn-6m"  onclick="setRange(6)">6M</button>
+        <button class="toggle-btn" id="btn-1y"  onclick="setRange(12)">1Y</button>
+        <button class="toggle-btn" id="btn-2y"  onclick="setRange(24)">2Y</button>
+        <button class="toggle-btn active" id="btn-all" onclick="setRange(0)">All</button>
+        <span style="width:0.5rem"></span>
         <button class="toggle-btn" id="btn-avg" onclick="toggleOverlay('avg')">Avg year</button>
         <button class="toggle-btn" id="btn-lastyear" onclick="toggleOverlay('lastyear')">Last year</button>
       </div>
@@ -130,7 +135,6 @@
   <div class="chart-card" id="thirlmere-card" style="display:none">
     <div class="chart-header">
       <span class="chart-title">Thirlmere: metres below top water level</span>
-      <span style="font-size:0.8rem;color:var(--muted)">lower = fuller</span>
     </div>
     <canvas id="thirlmere-chart"></canvas>
   </div>
@@ -141,6 +145,7 @@
 
   let allData = [];
   let levelsChart = null;
+  let thirlmereChart = null;
   const overlay = { avg: false, lastyear: false };
 
   async function init() {
@@ -305,12 +310,17 @@
             onClick(e, legendItem, legend) {
               const chart = legend.chart;
               const idx = legendItem.datasetIndex;
-              const soloActive = chart.data.datasets.every((_, i) =>
-                i === idx ? !chart.getDatasetMeta(i).hidden : chart.getDatasetMeta(i).hidden
-              );
-              chart.data.datasets.forEach((_, i) => {
-                chart.getDatasetMeta(i).hidden = soloActive ? false : i !== idx;
-              });
+              if (e.native.shiftKey) {
+                const meta = chart.getDatasetMeta(idx);
+                meta.hidden = !meta.hidden;
+              } else {
+                const soloActive = chart.data.datasets.every((_, i) =>
+                  i === idx ? !chart.getDatasetMeta(i).hidden : chart.getDatasetMeta(i).hidden
+                );
+                chart.data.datasets.forEach((_, i) => {
+                  chart.getDatasetMeta(i).hidden = soloActive ? false : i !== idx;
+                });
+              }
               chart.update();
             },
           },
@@ -322,6 +332,20 @@
         },
       },
     });
+  }
+
+  function setRange(months) {
+    const min = months ? (() => { const d = new Date(); d.setMonth(d.getMonth() - months); return d.getTime(); })() : undefined;
+    [levelsChart, thirlmereChart].forEach(chart => {
+      if (!chart) return;
+      chart.options.scales.x.min = min;
+      chart.update();
+    });
+    ['6m', '1y', '2y', 'all'].forEach(id => {
+      document.getElementById('btn-' + id)?.classList.remove('active');
+    });
+    const activeId = months === 6 ? '6m' : months === 12 ? '1y' : months === 24 ? '2y' : 'all';
+    document.getElementById('btn-' + activeId)?.classList.add('active');
   }
 
   function toggleOverlay(type) {
@@ -338,7 +362,7 @@
     if (!pts.length) return;
     document.getElementById('thirlmere-card').style.display = '';
     const ctx = document.getElementById('thirlmere-chart').getContext('2d');
-    new Chart(ctx, {
+    thirlmereChart = new Chart(ctx, {
       type: 'line',
       plugins: [yearBandsPlugin],
       data: {

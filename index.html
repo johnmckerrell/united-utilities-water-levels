@@ -27,6 +27,23 @@
     h1 { font-size: 1.75rem; font-weight: 700; }
     .subtitle { color: var(--muted); margin-top: 0.3rem; font-size: 0.875rem; }
     .subtitle a { color: var(--muted); }
+    #refresh-btn {
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--muted);
+      border-radius: 999px;
+      width: 1.5rem;
+      height: 1.5rem;
+      font-size: 0.9rem;
+      line-height: 1;
+      cursor: pointer;
+      vertical-align: middle;
+      padding: 0;
+    }
+    #refresh-btn:hover { color: var(--text); }
+    #refresh-btn:disabled { cursor: default; opacity: 0.5; }
+    #refresh-btn.spinning { animation: spin 0.7s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
     .stats-grid {
       display: grid;
@@ -105,6 +122,7 @@
     <h1>United Utilities Reservoir Levels</h1>
     <p class="subtitle">
       Weekly readings &middot; data date: <strong id="last-updated">loading&hellip;</strong>
+      <button id="refresh-btn" title="Reload latest data" onclick="loadData(true)">&#8635;</button>
       &middot; <a href="https://www.unitedutilities.com/help-and-support/your-water-supply/your-reservoirs/reservoir-levels/" target="_blank">source</a>
     </p>
   </header>
@@ -146,28 +164,59 @@
   let allData = [];
   let levelsChart = null;
   let thirlmereChart = null;
+  let currentRange = 0;  // months of history to show; 0 = all
   const overlay = { avg: false, lastyear: false };
 
-  async function init() {
-    let resp;
+  async function loadData(force) {
+    const btn = document.getElementById('refresh-btn');
+    if (force && btn) { btn.disabled = true; btn.classList.add('spinning'); }
     try {
-      resp = await fetch('data.json');
-    } catch (e) {
-      document.getElementById('error-msg').style.display = '';
-      return;
-    }
-    if (!resp.ok) {
-      document.getElementById('error-msg').style.display = '';
-      return;
-    }
-    allData = await resp.json();
-    if (!allData.length) return;
+      let resp;
+      const url = force ? 'data.json?_=' + Date.now() : 'data.json';
+      try {
+        resp = await fetch(url, { cache: force ? 'no-store' : 'default' });
+      } catch (e) {
+        document.getElementById('error-msg').style.display = '';
+        return;
+      }
+      if (!resp.ok) {
+        document.getElementById('error-msg').style.display = '';
+        return;
+      }
+      document.getElementById('error-msg').style.display = 'none';
+      allData = await resp.json();
+      if (!allData.length) return;
 
-    const latest = allData[allData.length - 1];
-    document.getElementById('last-updated').textContent = fmtDate(latest.date);
-    renderStats(latest);
-    renderLevelsChart();
-    renderThirlmereChart();
+      const latest = allData[allData.length - 1];
+      document.getElementById('last-updated').textContent = fmtDate(latest.date);
+
+      // Remember which series the user has hidden/soloed via the legend, keyed
+      // by label, so we can restore it after rebuilding the chart.
+      const hiddenByLabel = {};
+      if (levelsChart) {
+        levelsChart.data.datasets.forEach((ds, i) => {
+          hiddenByLabel[ds.label] = levelsChart.getDatasetMeta(i).hidden;
+        });
+      }
+
+      document.getElementById('stats-grid').innerHTML = '';
+      levelsChart?.destroy();
+      thirlmereChart?.destroy();
+      levelsChart = null;
+      thirlmereChart = null;
+      renderStats(latest);
+      renderLevelsChart();
+      renderThirlmereChart();
+
+      levelsChart.data.datasets.forEach((ds, i) => {
+        if (hiddenByLabel[ds.label] != null) {
+          levelsChart.getDatasetMeta(i).hidden = hiddenByLabel[ds.label];
+        }
+      });
+      setRange(currentRange);  // re-apply the active 6M/1Y/2Y/All selection (also calls chart.update)
+    } finally {
+      if (btn) { btn.disabled = false; btn.classList.remove('spinning'); }
+    }
   }
 
   function fmtDate(d) {
@@ -335,6 +384,7 @@
   }
 
   function setRange(months) {
+    currentRange = months;
     const min = months ? (() => { const d = new Date(); d.setMonth(d.getMonth() - months); return d.getTime(); })() : undefined;
     [levelsChart, thirlmereChart].forEach(chart => {
       if (!chart) return;
@@ -359,7 +409,10 @@
 
   function renderThirlmereChart() {
     const pts = allData.filter(r => r.thirlmereDepth != null);
-    if (!pts.length) return;
+    if (!pts.length) {
+      document.getElementById('thirlmere-card').style.display = 'none';
+      return;
+    }
     document.getElementById('thirlmere-card').style.display = '';
     const ctx = document.getElementById('thirlmere-chart').getContext('2d');
     thirlmereChart = new Chart(ctx, {
@@ -404,7 +457,7 @@
     });
   }
 
-  init().catch(() => {
+  loadData(false).catch(() => {
     document.getElementById('error-msg').style.display = '';
   });
   </script>

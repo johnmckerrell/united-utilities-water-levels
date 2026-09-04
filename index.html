@@ -167,6 +167,40 @@
   let currentRange = 0;  // months of history to show; 0 = all
   const overlay = { avg: false, lastyear: false };
 
+  // --- Shareable view state in the URL hash --------------------------------
+  // Encodes the time range, the avg-year / last-year overlays, and any series
+  // hidden via the legend, so a copied link reproduces exactly this view.
+  let initialHide = null;  // labels to start hidden, taken from the hash on load
+
+  function readHash() {
+    const p = new URLSearchParams(location.hash.slice(1));
+    return {
+      range: p.has('range') ? (parseInt(p.get('range'), 10) || 0) : null,
+      avg: p.has('avg') ? p.get('avg') === '1' : null,
+      lastyear: p.has('last') ? p.get('last') === '1' : null,
+      hide: p.has('hide') ? p.get('hide').split('|').filter(Boolean) : null,
+    };
+  }
+
+  function writeHash() {
+    const hidden = levelsChart
+      ? levelsChart.data.datasets
+          .filter((_, i) => levelsChart.getDatasetMeta(i).hidden)
+          .map(ds => ds.label)
+      : [];
+    // Keep the URL clean until the view actually differs from the default.
+    if (currentRange === 0 && !overlay.avg && !overlay.lastyear && !hidden.length) {
+      history.replaceState(null, '', location.pathname + location.search);
+      return;
+    }
+    const p = new URLSearchParams();
+    p.set('range', currentRange);
+    p.set('avg', overlay.avg ? '1' : '0');
+    p.set('last', overlay.lastyear ? '1' : '0');
+    if (hidden.length) p.set('hide', hidden.join('|'));
+    history.replaceState(null, '', '#' + p.toString());
+  }
+
   async function loadData(force) {
     const btn = document.getElementById('refresh-btn');
     if (force && btn) { btn.disabled = true; btn.classList.add('spinning'); }
@@ -197,6 +231,8 @@
         levelsChart.data.datasets.forEach((ds, i) => {
           hiddenByLabel[ds.label] = levelsChart.getDatasetMeta(i).hidden;
         });
+      } else if (initialHide) {
+        initialHide.forEach(label => { hiddenByLabel[label] = true; });
       }
 
       document.getElementById('stats-grid').innerHTML = '';
@@ -339,6 +375,7 @@
       data: { labels: allData.map(r => r.date), datasets: buildDatasets() },
       options: {
         responsive: true,
+        animation: false,
         interaction: { mode: 'index', intersect: false },
         scales: {
           x: {
@@ -371,6 +408,7 @@
                 });
               }
               chart.update();
+              writeHash();
             },
           },
           tooltip: {
@@ -396,6 +434,7 @@
     });
     const activeId = months === 6 ? '6m' : months === 12 ? '1y' : months === 24 ? '2y' : 'all';
     document.getElementById('btn-' + activeId)?.classList.add('active');
+    writeHash();
   }
 
   function toggleOverlay(type) {
@@ -405,6 +444,7 @@
       levelsChart.data.datasets = buildDatasets();
       levelsChart.update();
     }
+    writeHash();
   }
 
   function renderThirlmereChart() {
@@ -433,6 +473,7 @@
       },
       options: {
         responsive: true,
+        animation: false,
         scales: {
           x: {
             type: 'time',
@@ -456,6 +497,36 @@
       },
     });
   }
+
+  // Seed state from a shared link before the first render.
+  (function initFromHash() {
+    const h = readHash();
+    if (h.range != null) currentRange = h.range;
+    if (h.avg != null) overlay.avg = h.avg;
+    if (h.lastyear != null) overlay.lastyear = h.lastyear;
+    initialHide = h.hide;
+    document.getElementById('btn-avg').classList.toggle('active', overlay.avg);
+    document.getElementById('btn-lastyear').classList.toggle('active', overlay.lastyear);
+  })();
+
+  // Re-apply state if the hash changes underneath us (e.g. pasting a shared
+  // link into the address bar of an already-open tab).
+  window.addEventListener('hashchange', () => {
+    const h = readHash();
+    currentRange = h.range ?? 0;
+    overlay.avg = h.avg ?? false;
+    overlay.lastyear = h.lastyear ?? false;
+    document.getElementById('btn-avg').classList.toggle('active', overlay.avg);
+    document.getElementById('btn-lastyear').classList.toggle('active', overlay.lastyear);
+    if (!levelsChart) return;
+    const hide = new Set(h.hide || []);
+    levelsChart.data.datasets = buildDatasets();
+    levelsChart.update();
+    levelsChart.data.datasets.forEach((ds, i) => {
+      levelsChart.getDatasetMeta(i).hidden = hide.has(ds.label);
+    });
+    setRange(currentRange);  // re-applies range, updates the chart, rewrites the hash
+  });
 
   loadData(false).catch(() => {
     document.getElementById('error-msg').style.display = '';
